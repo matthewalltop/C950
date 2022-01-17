@@ -1,3 +1,7 @@
+# Author: Brian Matthew Alltop
+# StudentID: 000820333
+# WGU C950 - Data Structures & Algorithms 2
+
 import csv
 from hash_table import HashTable
 
@@ -25,9 +29,12 @@ class Shipments:
                 deadline = row[5]
                 kilos = row[6]
                 notes = row[7]
+                delivery_time = ''
+                current_location = ''
                 status = 'At Hub'  # All packages start at the hub
 
-                delivery = [id, address, city, state, postal_code, deadline, kilos, notes, status]
+                delivery = [id, address, city, state, postal_code, deadline,
+                            kilos, notes, delivery_time, current_location, status]
 
                 # Load anything
                 if postal_code == '84014' and deadline != '10:30':
@@ -47,7 +54,7 @@ class Shipments:
                         self.__shipment_one.append(delivery)
 
                 # Add the second truck specific values to the second truck
-                if 'Can Only be' in notes or 'Delayed' in notes:
+                if 'Can only be' in notes or 'Delayed' in notes:
                     self.__shipment_two.append(delivery)
 
                 # If not in any other deliveries add here.
@@ -59,7 +66,7 @@ class Shipments:
                     else:
                         self.__shipment_two.append(delivery)
 
-                self.__shipments.insert_item(id, delivery)
+                self.__shipments[id] = delivery
 
     def get_hash_table(self):
         """Returns hash table containing shipment data

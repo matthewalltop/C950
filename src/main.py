@@ -2,21 +2,16 @@
 # StudentID: 000820333
 # WGU C950 - Data Structures & Algorithms 2
 
-from shipments import Shipments
-from distances import Distances
+from hub import Hub
+
 
 def main():
-    shipments = Shipments()
-    distances = Distances()
-
     print('\n')
     print('----- WGU C950 - Routing Algorithm Program -----')
     print('\n')
-    # TODO print(f'Route was completed in {total_distance():.2f} miles.\n')
 
-    option_list = ['1', '2', 'q']
-
-    running = True
+    hub: Hub = Hub()
+    running: bool = True
 
     # Begin the main program loop
     while running:
@@ -24,43 +19,28 @@ def main():
                           1. Display all package information
                           2. Display information for a single package\nInput> """)
 
-        if selection.lower() not in option_list:
+        if selection.lower() not in ['1', '2', 'q']:
             print('\n----- Invalid input. Please selection a valid option below: -----\n')
         elif selection.lower() == 'q':
             break
         elif selection.lower() == '1':
             print('\nYou selected 1\n')
-            #TODO: Show all package data
-
-            print(f'Truck One: {len(shipments.get_first_shipment())} packages\n')
-            for p in shipments.get_first_shipment():
-                print(p)
-            print('\n')
-            print(f'Truck Two: {len(shipments.get_second_shipment())} packages\n')
-            for p in shipments.get_second_shipment():
-                print(p)
-            print('\n')
-            print(f'Truck Three: {len(shipments.get_third_shipment())} packages\n')
-            for p in shipments.get_third_shipment():
-                print(p)
-            print('\n')
-
-            # matr = distances.get_distance_matrix()
-            # for m in matr:
-            #     if len(m) > 0:
-            #         print(m)
-
+            packages = hub.get_shipments()
+            for package in packages:
+                package.print()
         elif selection.lower() == '2':
             print('\nYou selected 2\n')
-            #TODO: Show single package data.
+            package_id = input("""Enter the package ID to display information for\nInput>""")
+            print(f'Package ID: {package_id}\n')
+            package = hub.get_shipment(package_id)
+            if package is not None:
+                package.print()
+            else:
+                print(f'Package ID {package_id} not found.')
         else:
             running = False
 
     input('Goodbye!\n')
-
-
-
-
 
 
 if __name__ == "__main__":

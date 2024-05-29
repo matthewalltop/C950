@@ -5,6 +5,7 @@
 import csv
 from hash_table import HashTable
 
+
 class Distances:
     def __init__(self):
         self.__distances = []
@@ -49,10 +50,7 @@ class Distances:
         """Calculates the distance between two indexes
             Runs at O(1)"""
         distance = self.__distances[from_address_index][to_address_index]
-        if distance is '':
+        if distance == '':
             distance = self.__distances[to_address_index][from_address_index]
 
         return float(distance)
-
-
-

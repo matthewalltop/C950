@@ -9,7 +9,8 @@ Value = TypeVar('Value')
 
 class HashTable(Generic[Key, Value]):
     """A hash table implementation"""
-    def __init__(self, capacity=100): # TODO: Update this with a resize later.
+
+    def __init__(self, capacity=100):
         self.values = []
         self.capacity = capacity
         self.size = 0
@@ -75,6 +76,14 @@ class HashTable(Generic[Key, Value]):
 
         raise KeyError()
 
+    def length(self):
+        """Returns the number of elements in the hash table"""
+        x: int = 0
+        for i in range(0, len(self.values)):
+            if self.values[i]:
+                x += 1
+        return x
+
     def __resize(self):
         """ Resizes hash table in place.
         :return:
@@ -103,5 +112,3 @@ class HashTable(Generic[Key, Value]):
             Runs at: O(1)"""
         length = len(self.values)
         return hash(key) % length
-
-

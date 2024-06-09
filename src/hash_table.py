@@ -13,20 +13,18 @@ class HashTable(Generic[Key, Value]):
     def __init__(self, capacity=100):
         self.values = []
         self.capacity = capacity
-        self.size = 0
+        self._size = 0
         for _ in range(capacity):
             self.values.append([])
+
+    def __len__(self):
+        return self._size
 
     # From here: https://rszalski.github.io/magicmethods/
     # Inherited from Python to make this a legit collection class.
     def __iter__(self):
-        return iter(self.values)
-
-    def __next__(self):
-        if self.num >= self.max:
-            raise StopIteration
-        self.num += 1
-        return self.num
+        not_empty = [x for x in self.values if x != []]
+        return iter([el[0] for el in not_empty])
 
     def __getitem__(self, key: Key):
         hash_key = self.__generate_hash(key)
@@ -54,11 +52,11 @@ class HashTable(Generic[Key, Value]):
                 if kvp[0] == key:
                     kvp[1] = kv
             self.values[hash_key].append(kv)
-            self.size += 1
+            self._size += 1
             return True
         else:
             self.values[hash_key] = list([kv])
-            self.size += 1
+            self._size += 1
 
     def __delitem__(self, key: Key):
         """ Removes item from hash table
@@ -75,14 +73,6 @@ class HashTable(Generic[Key, Value]):
                     return self.values[hash_key].pop(elm)
 
         raise KeyError()
-
-    def length(self):
-        """Returns the number of elements in the hash table"""
-        x: int = 0
-        for i in range(0, len(self.values)):
-            if self.values[i]:
-                x += 1
-        return x
 
     def __resize(self):
         """ Resizes hash table in place.
